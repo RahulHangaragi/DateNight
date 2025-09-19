@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Love Story ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Georgia", serif;
+      text-align: center;
+      background: url("background.jpg") no-repeat center center/cover;
+      color: #fff;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .book {
+      perspective: 2000px;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .page {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      transform-origin: left;
+      transform: rotateY(0);
+      transition: transform 1s ease-in-out;
+    }
+
+    .page h1, .page h2, .page p {
+      margin: 15px 0;
+    }
+
+    button {
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 18px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover { background: #ff3355; }
+
+    .hidden {
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    /* Floating hearts */
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+    .heart {
+      position: absolute;
+      color: red;
+      font-size: 20px;
+      animation: float 6s linear infinite;
+    }
+    @keyframes float {
+      from { transform: translateY(100vh); opacity: 1; }
+      to { transform: translateY(-10vh); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="song.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <div class="book">
+    <!-- Page 1 -->
+    <div class="page" id="page1">
+      <h1>Hey Priya ❤️</h1>
+      <p>I have something to tell you...</p>
+      <button onclick="startExperience()">Turn Page →</button>
+    </div>
+
+    <!-- Page 2 -->
+    <div class="page hidden" id="page2">
+      <h2>My Love Letter 💌</h2>
+      <p>You make my days brighter ☀️</p>
+      <p>Every little moment with you means the world 🌍</p>
+      <p>I feel so lucky to have you 💖</p>
+      <p>So I was wondering...</p>
+      <button onclick="flipPage(2)">Turn Page →</button>
+    </div>
+
+    <!-- Page 3 -->
+    <div class="page hidden" id="page3">
+      <h2>Will you go on a date with me this weekend? 💕</h2>
+      <button onclick="flipPage(3)">Yes! ✅</button>
+      <button id="noBtn" onmouseover="moveButton()">No ❌</button>
+    </div>
+
+    <!-- Page 4 -->
+    <div class="page hidden" id="page4">
+      <h2>Yay 🎉 Can’t wait to see you 💖</h2>
+      <p>I’ll pick you up on Friday at 7 PM 🌸✨</p>
+      <button onclick="flipPage(4)">Turn Page →</button>
+    </div>
+
+    <!-- Page 5 -->
+    <div class="page hidden" id="page5">
+      <h2>Here’s where our adventure begins 🌟</h2>
+      <a href="https://maps.google.com/?q=Cubbon+Park+Bangalore" target="_blank">
+        <button>View Date Location 📍</button>
+      </a>
+    </div>
+  </div>
+
+  <!-- Floating hearts -->
+  <div class="hearts" id="hearts"></div>
+
+  <script>
+    let currentPage = 1;
+
+    function startExperience() {
+      document.getElementById("bgMusic").play().catch(()=>{});
+      flipPage(1);
+    }
+
+    function flipPage(n) {
+      let page = document.getElementById("page" + n);
+      page.style.transform = "rotateY(-180deg)";
+      page.style.transition = "transform 1s ease-in-out";
+      setTimeout(() => {
+        page.classList.add("hidden");
+        let next = document.getElementById("page" + (n + 1));
+        if (next) next.classList.remove("hidden");
+      }, 1000);
+    }
+
+    function moveButton() {
+      let btn = document.getElementById("noBtn");
+      btn.style.position = "absolute";
+      btn.style.top = Math.random() * 80 + "vh";
+      btn.style.left = Math.random() * 80 + "vw";
+    }
+
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerText = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 15 + "px";
+      heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+      document.getElementById("hearts").appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 500);
+  </script>
+</body>
+</html>
