@@ -3,180 +3,230 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Love Story ❤️</title>
+  <title>For My Love ❤️</title>
   <style>
-    body {
+    body, html {
       margin: 0;
-      font-family: "Georgia", serif;
-      text-align: center;
-      background: url("background.jpg") no-repeat center center/cover;
-      color: #fff;
-      overflow: hidden;
-      height: 100vh;
-    }
-
-    .book {
-      perspective: 2000px;
-      width: 100%;
+      padding: 0;
       height: 100%;
-      position: relative;
-    }
-
-    .page {
       width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      transform-origin: left;
-      transform: rotateY(0);
-      transition: transform 1s ease-in-out;
-    }
-
-    .page h1, .page h2, .page p {
-      margin: 15px 0;
-    }
-
-    button {
-      background: #ff4d6d;
+      font-family: "Trebuchet MS", sans-serif;
       color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-size: 18px;
-      margin-top: 20px;
-      cursor: pointer;
-      transition: 0.3s;
+      overflow: hidden;
     }
 
-    button:hover { background: #ff3355; }
-
-    .hidden {
-      pointer-events: none;
-      opacity: 0;
+    /* Background image fit */
+    body {
+      background: url("latest.png") no-repeat center center;
+      background-size: contain;     
+      background-attachment: fixed;
+      background-color: #000;       
     }
 
-    /* Floating hearts */
-    .hearts {
+    /* Dark overlay */
+    .overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
-      overflow: hidden;
+      background: rgba(0, 0, 0, 0.55);
       z-index: -1;
     }
-    .heart {
-      position: absolute;
-      color: red;
-      font-size: 20px;
-      animation: float 6s linear infinite;
+
+    /* Book container */
+    .book {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      perspective: 2000px;
+      overflow: hidden;
     }
-    @keyframes float {
-      from { transform: translateY(100vh); opacity: 1; }
-      to { transform: translateY(-10vh); opacity: 0; }
+
+    .page {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+      transform-origin: left center;
+      backface-visibility: hidden;
+      transition: transform 1s ease-in-out;
+    }
+
+    /* Hide pages */
+    .hidden {
+      display: none;
+    }
+
+    /* Page flip */
+    .flip {
+      transform: rotateY(-180deg);
+    }
+
+    button {
+      background: #ff4d6d;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      color: white;
+      font-size: 1rem;
+      margin: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ff1a4c;
+    }
+
+    /* Playful "No" button */
+    #noBtn {
+      position: relative;
+    }
+
+    /* Falling effect */
+    .falling {
+      position: fixed;
+      top: -10px;
+      font-size: 24px;
+      z-index: 999;
+      pointer-events: none;
+      animation: fall linear forwards;
+    }
+
+    /* Hearts/Roses falling with drift */
+    @keyframes fall {
+      0%   { transform: translateX(0) translateY(0) rotate(0deg); opacity: 1; }
+      25%  { transform: translateX(-20px) translateY(25vh) rotate(45deg); }
+      50%  { transform: translateX(20px) translateY(50vh) rotate(90deg); }
+      75%  { transform: translateX(-15px) translateY(75vh) rotate(180deg); }
+      100% { transform: translateX(15px) translateY(100vh) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
 <body>
-
   <!-- Background Music -->
   <audio id="bgMusic" loop>
     <source src="song.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
   </audio>
 
+  <!-- Dark overlay -->
+  <div class="overlay"></div>
+
   <div class="book">
-    <!-- Page 1 -->
     <div class="page" id="page1">
-      <h1>Hey Maithri ❤️</h1>
-      <p>I have something to tell you...</p>
-      <button onclick="startExperience()">Turn Page →</button>
+      <div>
+        <h2>Hey Love ❤️</h2>
+        <p>I made something special for you...</p>
+        <button onclick="startExperience()">Tap to Open</button>
+      </div>
     </div>
 
-    <!-- Page 2 -->
     <div class="page hidden" id="page2">
-      <h2>My Love Letter 💌</h2>
-      <p>You make my days brighter ☀️</p>
-      <p>Every little moment with you means the world 🌍</p>
-      <p>I feel so lucky to have you 💖</p>
-      <p>So I was wondering...</p>
-      <button onclick="flipPage(2)">Turn Page →</button>
+      <div>
+        <h2>A Little Note ✨</h2>
+        <p>You make my world brighter, every single day.</p>
+        <button onclick="nextPage(3)">Next ➡️</button>
+      </div>
     </div>
 
-    <!-- Page 3 -->
     <div class="page hidden" id="page3">
-      <h2>Will you go on a date with me this weekend? 💕</h2>
-      <button onclick="flipPage(3)">Yes! ✅</button>
-      <button id="noBtn" onmouseover="moveButton()">No ❌</button>
+      <div>
+        <h2>Our Journey 💕</h2>
+        <p>Every moment with you feels like a beautiful story unfolding...</p>
+        <button onclick="nextPage(4)">Next ➡️</button>
+      </div>
     </div>
 
-    <!-- Page 4 -->
     <div class="page hidden" id="page4">
-      <h2>Yay 🎉 Can’t wait to see you 💖</h2>
-      <p>I’ll pick you up on Friday at 7 PM 🌸✨</p>
-      <button onclick="flipPage(4)">Turn Page →</button>
+      <div>
+        <h2>The Big Question 🌹</h2>
+        <p>Will you go on a date with me this weekend? 🥰</p>
+        <div>
+          <button onclick="yesClicked()">Yes 💖</button>
+          <button id="noBtn" onmouseover="moveNoBtn()">No 🙈</button>
+        </div>
+      </div>
     </div>
 
-    <!-- Page 5 -->
     <div class="page hidden" id="page5">
-      <h2>Here’s where our adventure begins 🌟</h2>
-      <a href="https://maps.google.com/?q=Cubbon+Park+Bangalore" target="_blank">
-        <button>View Date Location 📍</button>
-      </a>
+      <div>
+        <h2>Yay! 🎉</h2>
+        <p>Here’s our date spot. I can’t wait! 💑</p>
+        <button onclick="window.open('https://goo.gl/maps/XbF9Z7mLRG1K4gBh8','_blank')">📍 View Location</button>
+      </div>
     </div>
   </div>
 
-  <!-- Floating hearts -->
-  <div class="hearts" id="hearts"></div>
-
   <script>
     let currentPage = 1;
+    let fallInterval;
 
     function startExperience() {
-      document.getElementById("bgMusic").play().catch(()=>{});
-      flipPage(1);
+      document.getElementById("bgMusic").play();
+      nextPage(2);
+
+      // start hearts & roses everywhere
+      if (!fallInterval) {
+        fallInterval = setInterval(createFalling, 400);
+      }
     }
 
-    function flipPage(n) {
-      let page = document.getElementById("page" + n);
-      page.style.transform = "rotateY(-180deg)";
-      page.style.transition = "transform 1s ease-in-out";
+    function nextPage(next) {
+      const current = document.getElementById("page" + currentPage);
+      const upcoming = document.getElementById("page" + next);
+
+      current.classList.add("flip");
+
       setTimeout(() => {
-        page.classList.add("hidden");
-        let next = document.getElementById("page" + (n + 1));
-        if (next) next.classList.remove("hidden");
+        current.classList.add("hidden");
+        current.classList.remove("flip");
+        upcoming.classList.remove("hidden");
       }, 1000);
+
+      currentPage = next;
     }
 
-    function moveButton() {
-      let btn = document.getElementById("noBtn");
-      btn.style.position = "absolute";
-      btn.style.top = Math.random() * 80 + "vh";
-      btn.style.left = Math.random() * 80 + "vw";
+    // Make "No" button run away
+    function moveNoBtn() {
+      const btn = document.getElementById("noBtn");
+      const x = Math.floor(Math.random() * 200) - 100;
+      const y = Math.floor(Math.random() * 100) - 50;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
     }
 
-    // Floating hearts
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerText = "❤️";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.fontSize = Math.random() * 20 + 15 + "px";
-      heart.style.animationDuration = Math.random() * 3 + 3 + "s";
-      document.getElementById("hearts").appendChild(heart);
-      setTimeout(() => heart.remove(), 6000);
+    function yesClicked() {
+      nextPage(5);
     }
-    setInterval(createHeart, 500);
+
+    // Falling hearts & roses with sway
+    function createFalling() {
+      const el = document.createElement("div");
+      el.classList.add("falling");
+
+      // 70% chance heart, 30% chance rose
+      if (Math.random() < 0.7) {
+        el.innerHTML = "❤️";
+        el.style.color = "#ff4d6d";
+      } else {
+        el.innerHTML = "🌹";
+      }
+
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.fontSize = (16 + Math.random() * 20) + "px";
+      el.style.animationDuration = (3 + Math.random() * 3) + "s"; // slower drift
+      document.body.appendChild(el);
+
+      setTimeout(() => {
+        el.remove();
+      }, 6000);
+    }
   </script>
 </body>
 </html>
-
